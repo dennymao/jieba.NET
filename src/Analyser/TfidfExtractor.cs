@@ -9,7 +9,16 @@ namespace JiebaNet.Analyser
 {
     public class TfidfExtractor : KeywordExtractor
     {
-        private static readonly string DefaultIdfFile = ConfigManager.IdfFile;
+        /// <summary>
+        /// mmfix:
+        /// 增加静态构造函数以便持久化字典数据
+        /// </summary>
+        static TfidfExtractor()
+        {
+            idfLoader = new IdfLoader(ConfigManager.IdfFile);
+        }
+        private static readonly IdfLoader idfLoader;
+         
         private static readonly int DefaultWordCount = 20;
 
         private JiebaSegmenter Segmenter { get; set; }
@@ -23,13 +32,13 @@ namespace JiebaNet.Analyser
         {
             Segmenter = segmenter.IsNull() ? new JiebaSegmenter() : segmenter;
             PosSegmenter = new PosSegmenter(Segmenter);
-            SetStopWords(ConfigManager.StopWordsFile);
+            //SetStopWords(ConfigManager.StopWordsFile);
             if (StopWords.IsEmpty())
             {
                 StopWords.UnionWith(DefaultStopWords);
             }
-
-            Loader = new IdfLoader(DefaultIdfFile);
+            /// mmfix:
+            Loader = idfLoader;
 
             IdfFreq = Loader.IdfFreq;
             MedianIdf = Loader.MedianIdf;
