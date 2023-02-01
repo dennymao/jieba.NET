@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
+    <TargetFrameworks>net60</TargetFrameworks>
     <AssemblyName>JiebaNet.Analyser</AssemblyName>
     <RootNamespace>JiebaNet.Analyser</RootNamespace>
     <Version>0.42.2</Version>
@@ -14,6 +14,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Segmenter\Segmenter.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Configuration.ConfigurationManager">
+      <Version>7.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net60'">
+    <PackageReference Include="System.Configuration.ConfigurationManager">
+      <Version>7.0.0</Version>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
